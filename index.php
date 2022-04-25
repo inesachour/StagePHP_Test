@@ -1,9 +1,14 @@
 <?php
-include './Backend/article_repository.php';
 session_start();
 
-$articleRepo = new ArticleRepository();
-$articles = $articleRepo -> findAll();
+// API Url
+$api_url = 'http://localhost/TEST/backend/api.php';
+
+// Get JSON data
+$json_data = file_get_contents($api_url);
+
+// Decode JSON data
+$articles = json_decode($json_data);
 
 ?>
 

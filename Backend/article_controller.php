@@ -1,31 +1,25 @@
 <?php
 
-class PersonController {
+include './article_repository.php';
 
-    private $db;
+class ArticleController {
     private $requestMethod;
-    private $userId;
+    private $articleRepo;
 
-    private $personGateway;
 
-    public function __construct($db, $requestMethod, $userId)
+    public function __construct($requestMethod)
     {
-        $this->db = $db;
         $this->requestMethod = $requestMethod;
-        $this->userId = $userId;
-
-        $this->personGateway = new PersonGateway($db);
+        $this->articleRepo = new ArticleRepository();
     }
 
     public function processRequest()
     {
         switch ($this->requestMethod) {
             case 'GET':
-                if ($this->userId) {
-                    $response = $this->getUser($this->userId);
-                } else {
-                    $response = $this->getAllUsers();
-                };
+                $result = $this->articleRepo->findAll();
+                $response['status_code_header'] = 'HTTP/1.1 200 OK';
+                $response['body'] = json_encode($result);
                 break;
             default:
                 $response = $this->notFoundResponse();
@@ -36,17 +30,5 @@ class PersonController {
             echo $response['body'];
         }
     }
-
-    private function getAllUsers()
-    {
-        $result = $this->personGateway->findAll();
-        $response['status_code_header'] = 'HTTP/1.1 200 OK';
-        $response['body'] = json_encode($result);
-        return $response;
-    }
-
-  
-
-
    
 }
