@@ -2,7 +2,7 @@
 session_start();
 
 // API Url
-$api_url = 'http://localhost/TEST/backend/api.php';
+$api_url = 'http://localhost/API/backend/api.php';
 
 // Get JSON data from API
 $json_data = file_get_contents($api_url);
